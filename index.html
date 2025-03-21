@@ -1,45 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rotação de Links</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        iframe {
-            width: 100vw;
-            height: 100vh;
-            border: none;
-            display: block;
-        }
-    </style>
-    <script>
-        // Lista de URLs para alternar
-        const urls = [
-            "https://static.wixstatic.com/media/a6967f_104befaa75e3489585c3696f0e19de04~mv2.png",
-            "https://lookerstudio.google.com/embed/reporting/21a34bc7-1d36-4266-98dd-99bd9533686e/page/qgR"
-        ];
-        
-        let index = 0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatórios Looker Studio</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
 
-        function changePage() {
-            document.getElementById("viewer").src = urls[index];
-            index = (index + 1) % urls.length; // Volta para o primeiro link quando chega ao último
-        }
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transition: opacity 1s;
+    }
 
-        setInterval(changePage, 30000); // Troca de link a cada 10 segundos
-    </script>
+    .iframe-container {
+      display: flex;
+      align-items: center; /* Alinha verticalmente */
+      justify-content: center;
+      width: 100%;
+      height: 100%; /* Garante que o contêiner do iframe ocupe toda a altura */
+    }
+
+    .left {
+      flex: 0 0 70%;
+      height: 100%; /* Garante que o iframe ocupe toda a altura do contêiner */
+      display: flex;
+      align-items: center;    /* Alinha verticalmente */
+      justify-content: flex-start; /* Alinha horizontalmente à esquerda */
+    }
+
+    .right {
+      flex: 0 0 30%;
+      height: 100%; /* Garante que o iframe ocupe toda a altura do contêiner */
+      background-color: black; /* Fundo preto para o iframe da direita */
+      overflow: hidden; /* Esconde barras de rolagem */
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%; /* Garante que o iframe ocupe toda a altura do seu contêiner */
+      border: none;
+      object-fit: contain; /* Ajusta o conteúdo para que tudo seja visível dentro do iframe */
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
-    <iframe id="viewer" src="https://static.wixstatic.com/media/a6967f_104befaa75e3489585c3696f0e19de04~mv2.png"></iframe>
+  <!-- Container para o primeiro link -->
+  <div class="container" id="container1">
+    <div class="iframe-container">
+      <iframe src="https://lookerstudio.google.com/embed/reporting/21a34bc7-1d36-4266-98dd-99bd9533686e/page/qgR"></iframe>
+    </div>
+  </div>
+
+  <!-- Container para o segundo link -->
+  <div class="container hidden" id="container2">
+    <div class="iframe-container">
+      <iframe src="https://lookerstudio.google.com/embed/reporting/c20a276d-5434-4f62-be33-61fffdb41176/page/p_pm6x8jy9pd"></iframe>
+    </div>
+  </div>
+
+  <script>
+    let currentView = 1; // Começa com o primeiro iframe visível
+    const container1 = document.getElementById('container1');
+    const container2 = document.getElementById('container2');
+
+    function toggleViews() {
+      // Alterna entre os modos de exibição
+      if (currentView === 1) {
+        container1.classList.add('hidden');
+        container2.classList.remove('hidden');
+        currentView = 2;
+      } else {
+        container2.classList.add('hidden');
+        container1.classList.remove('hidden');
+        currentView = 1;
+      }
+    }
+
+    // Alterna a cada 10 segundos
+    setInterval(toggleViews, 10000);
+
+    // Inicializa o primeiro iframe visível
+    container1.classList.remove('hidden');
+  </script>
 </body>
 </html>
