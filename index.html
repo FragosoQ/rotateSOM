@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Relatórios Looker Studio</title>
   <style>
     body, html {
@@ -77,44 +77,31 @@
     </div>
   </div>
 
-  
   <script>
-let currentView = 1; // Começa com o primeiro container visível
+    // Array com as referências aos containers
+    const containers = [
+      document.getElementById('container1'),
+      document.getElementById('container2'),
+      document.getElementById('container3')
+    ];
 
-const container1 = document.getElementById('container1');
-const container2 = document.getElementById('container2');
-const container3 = document.getElementById('container3');
-const container4 = document.getElementById('container4');
+    let currentIndex = 0; // Começa com o primeiro container visível
 
-function toggleViews() {
-  // Esconde todos os containers primeiro
-  container1.classList.add('hidden');
-  container2.classList.add('hidden');
-  container3.classList.add('hidden');
-  container4.classList.add('hidden');
+    // Função para alternar os containers
+    function toggleViews() {
+      // Esconde todos os containers
+      containers.forEach(c => c.classList.add('hidden'));
+      // Atualiza o índice para o próximo
+      currentIndex = (currentIndex + 1) % containers.length;
+      // Mostra o próximo container
+      containers[currentIndex].classList.remove('hidden');
+    }
 
-  // Mostra o próximo container
-  if (currentView === 1) {
-    container2.classList.remove('hidden');
-    currentView = 2;
-  } else if (currentView === 2) {
-    container3.classList.remove('hidden');
-    currentView = 3;
-  } else if (currentView === 3) {
-    container4.classList.remove('hidden');
-    currentView = 4;
-  } else {
-    container1.classList.remove('hidden');
-    currentView = 1;
-  }
-}
+    // Alterna a cada 10 segundos (10000 ms)
+    setInterval(toggleViews, 10000);
 
-
-    // Alterna a cada 10 segundos
-    setInterval(toggleViews, 90000);
-
-    // Inicializa o primeiro iframe visível
-    container1.classList.remove('hidden');
+    // Inicializa a primeira visibilidade (opcional, já configurado no HTML)
+    containers[currentIndex].classList.remove('hidden');
   </script>
 </body>
 </html>
